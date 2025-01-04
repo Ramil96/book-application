@@ -19,5 +19,11 @@ def add_book():
 
 @app.route("/genres")
 def genres():
-    # Placeholder for genres page
+    # Render the "Genres" page
     return render_template("genres.html")
+
+
+@app.route("/reviews")
+def reviews():
+    # Render the "Reviews" page
+    return render_template("reviews.html")
