@@ -25,3 +25,25 @@ def add_genre():
         db.session.commit()
         return redirect(url_for("genres"))
     return render_template("add_genre.html")
+
+
+@app.route("/add_book", methods=["GET", "POST"])
+def add_book():
+    if request.method == "POST":
+        # Logic to add a book
+        book_title = request.form.get("book_title")
+        genre_id = request.form.get("genre_id")
+        book = Book(title=book_title, genre_id=genre_id)
+        db.session.add(book)
+        db.session.commit()
+        return redirect(url_for("home"))
+    genres = Genre.query.all()
+    return render_template("add_book.html", genres=genres)
+
+
+
+@app.route("/reviews")
+def reviews():
+    # Logic to display reviews
+    all_reviews = Review.query.all()
+    return render_template("reviews.html", reviews=all_reviews)
