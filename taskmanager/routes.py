@@ -4,9 +4,8 @@ from taskmanager.models import Genre, Book, Review
 
 @app.route("/")
 def home():
-    genres = Genre.query.all()
-    books = Book.query.all()
-    return render_template("books.html", genres=genres, books=books)
+    books = Book.query.order_by(Book.title).all()
+    return render_template("books.html", books=books)
 
 @app.route("/genres")
 def genres():
@@ -16,7 +15,6 @@ def genres():
 @app.route("/add_genre", methods=["GET", "POST"])
 def add_genre():
     if request.method == "POST":
-        # Create a new genre using the form data
         genre_name = request.form.get("genre_name")
         genre = Genre(genre_name=genre_name)
         db.session.add(genre)
@@ -28,30 +26,10 @@ def add_genre():
 def edit_genre(genre_id):
     genre = Genre.query.get_or_404(genre_id)
     if request.method == "POST":
-        # Update the genre name
         genre.genre_name = request.form.get("genre_name")
         db.session.commit()
         return redirect(url_for("genres"))
     return render_template("edit_genre.html", genre=genre)
-
-@app.route("/add_book", methods=["GET", "POST"])
-def add_book():
-    if request.method == "POST":
-        # Logic to add a book
-        book_title = request.form.get("book_title")
-        genre_id = request.form.get("genre_id")
-        book = Book(title=book_title, genre_id=genre_id)
-        db.session.add(book)
-        db.session.commit()
-        return redirect(url_for("home"))
-    genres = Genre.query.all()
-    return render_template("add_book.html", genres=genres)
-
-@app.route("/reviews")
-def reviews():
-    # Logic to display reviews
-    all_reviews = Review.query.all()
-    return render_template("reviews.html", reviews=all_reviews)
 
 @app.route("/delete_genre/<int:genre_id>", methods=["POST"])
 def delete_genre(genre_id):
@@ -59,3 +37,38 @@ def delete_genre(genre_id):
     db.session.delete(genre)
     db.session.commit()
     return redirect(url_for("genres"))
+
+@app.route("/add_book", methods=["GET", "POST"])
+def add_book():
+    if request.method == "POST":
+        title = request.form.get("title")
+        genre_id = request.form.get("genre_id")
+        book = Book(title=title, genre_id=genre_id)
+        db.session.add(book)
+        db.session.commit()
+        return redirect(url_for("home"))
+    genres = Genre.query.order_by(Genre.genre_name).all()
+    return render_template("add_book.html", genres=genres)
+
+@app.route("/edit_book/<int:book_id>", methods=["GET", "POST"])
+def edit_book(book_id):
+    book = Book.query.get_or_404(book_id)
+    if request.method == "POST":
+        book.title = request.form.get("title")
+        book.genre_id = request.form.get("genre_id")
+        db.session.commit()
+        return redirect(url_for("home"))
+    genres = Genre.query.order_by(Genre.genre_name).all()
+    return render_template("edit_book.html", book=book, genres=genres)
+
+@app.route("/delete_book/<int:book_id>", methods=["POST"])
+def delete_book(book_id):
+    book = Book.query.get_or_404(book_id)
+    db.session.delete(book)
+    db.session.commit()
+    return redirect(url_for("home"))
+
+
+@app.route("/reviews")
+def reviews():
+    return render_template("reviews.html")
