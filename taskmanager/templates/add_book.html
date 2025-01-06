@@ -13,13 +13,23 @@
                 <label for="book_title">Book Title</label>
             </div>
         </div>
-        
+
         <!-- Book Author -->
         <div class="row">
             <div class="input-field col s12">
                 <i class="fas fa-user prefix light-blue-text text-darken-4"></i>
                 <input id="author_name" name="author_name" minlength="3" maxlength="50" type="text" class="validate" required>
                 <label for="author_name">Author Name</label>
+            </div>
+        </div>
+
+        <!-- Book Description -->
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
+                <textarea id="book_description" name="book_description" minlength="10" maxlength="500" 
+                    class="materialize-textarea validate" required></textarea>
+                <label for="book_description">Book Description</label>
             </div>
         </div>
 
@@ -58,12 +68,12 @@
 </div>
 
 <script>
-    // Initialize Materialize datepicker
+    // Initialize Materialize datepicker and select
     document.addEventListener('DOMContentLoaded', function() {
         const datePickers = document.querySelectorAll('.datepicker');
         M.Datepicker.init(datePickers, {
-            format: 'yyyy-mm-dd', // Format to match typical SQL date formats
-            yearRange: [1900, new Date().getFullYear()] // Limit years to realistic range
+            format: 'yyyy-mm-dd', // Match typical SQL date format
+            yearRange: [1900, new Date().getFullYear()] // Limit year range
         });
 
         const selectElems = document.querySelectorAll('select');

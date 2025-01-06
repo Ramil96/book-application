@@ -41,14 +41,21 @@ def delete_genre(genre_id):
 @app.route("/add_book", methods=["GET", "POST"])
 def add_book():
     if request.method == "POST":
-        title = request.form.get("title")
+        book_title = request.form.get("book_title")
+        author_name = request.form.get("author_name")
+        release_date = request.form.get("release_date")
         genre_id = request.form.get("genre_id")
-        book = Book(title=title, genre_id=genre_id)
+
+        # Create new book instance
+        book = Book(title=book_title, author=author_name, release_date=release_date, genre_id=genre_id)
         db.session.add(book)
         db.session.commit()
+
         return redirect(url_for("home"))
-    genres = Genre.query.order_by(Genre.genre_name).all()
+
+    genres = Genre.query.all()
     return render_template("add_book.html", genres=genres)
+
 
 @app.route("/edit_book/<int:book_id>", methods=["GET", "POST"])
 def edit_book(book_id):
