@@ -59,4 +59,3 @@ def delete_genre(genre_id):
     db.session.delete(genre)
     db.session.commit()
     return redirect(url_for("genres"))
-
