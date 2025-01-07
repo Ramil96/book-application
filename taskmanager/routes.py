@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for
 from taskmanager import app, db
-from taskmanager.models import Genre, Book, Review
+from taskmanager.models import Genre, Book, Review  # Import models from models.py
 
 @app.route("/")
 def home():
@@ -43,19 +43,22 @@ def add_book():
     if request.method == "POST":
         book_title = request.form.get("book_title")
         author_name = request.form.get("author_name")
-        release_date = request.form.get("release_date")
+        book_description = request.form.get("book_description")
         genre_id = request.form.get("genre_id")
 
-        # Create new book instance
-        book = Book(title=book_title, author=author_name, release_date=release_date, genre_id=genre_id)
+        book = Book(
+            title=book_title,
+            author=author_name,
+            description=book_description,
+            genre_id=genre_id
+        )
         db.session.add(book)
         db.session.commit()
 
         return redirect(url_for("home"))
 
-    genres = Genre.query.all()
+    genres = Genre.query.order_by(Genre.genre_name).all()
     return render_template("add_book.html", genres=genres)
-
 
 @app.route("/edit_book/<int:book_id>", methods=["GET", "POST"])
 def edit_book(book_id):
@@ -75,7 +78,8 @@ def delete_book(book_id):
     db.session.commit()
     return redirect(url_for("home"))
 
-
 @app.route("/reviews")
 def reviews():
-    return render_template("reviews.html")
+    # Implement the logic to retrieve reviews
+    reviews = Review.query.all()  # This can be customized as per your needs
+    return render_template("reviews.html", reviews=reviews)
