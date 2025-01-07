@@ -78,14 +78,45 @@ def delete_book(book_id):
     db.session.commit()
     return redirect(url_for("home"))
 
-@app.route("/reviews")
+@app.route("/reviews", methods=["GET", "POST"])
 def reviews():
-    # Implement the logic to retrieve reviews
-    reviews = Review.query.all()  # This can be customized as per your needs
-    return render_template("reviews.html", reviews=reviews)
+    # Sorting by genre if a genre is selected
+    genre_id = request.args.get("genre_id", None)
+    if genre_id:
+        reviews = Review.query.filter_by(book_id=Book.query.filter_by(genre_id=genre_id).first().id).all()
+    else:
+        reviews = Review.query.all()
+
+    genres = Genre.query.order_by(Genre.genre_name).all()
+    return render_template("reviews.html", reviews=reviews, genres=genres)
+
+
+@app.route("/add_review/<int:book_id>", methods=["GET", "POST"])
+def add_review(book_id):
+    book = Book.query.get_or_404(book_id)
+    
+    if request.method == "POST":
+        review_text = request.form.get("review_text")
+        rating = request.form.get("rating")
+        
+        # Create new review instance
+        review = Review(
+            review_text=review_text,
+            rating=rating,
+            book_id=book_id
+        )
+        db.session.add(review)
+        db.session.commit()
+
+        return redirect(url_for("reviews"))
+
+    return render_template("add_review.html", book=book)
+
 
 
 @app.route("/book/<int:book_id>")
 def book_detail(book_id):
     book = Book.query.get_or_404(book_id)
     return render_template("book_detail.html", book=book)
+
+
