@@ -1,34 +1,31 @@
+<!-- reviews.html -->
 {% extends "base.html" %}
+
 {% block content %}
+    <h1>Reviews</h1>
 
-<h3 class="center-align">Add Review for {{ book.title }}</h3>
-
-<div class="row">
-    <form class="col s12 m8 offset-m2" method="POST">
-        <div class="input-field">
-            <textarea id="review_text" name="review_text" class="materialize-textarea" required></textarea>
-            <label for="review_text">Review Text</label>
-        </div>
-        <div class="input-field">
-            <select name="rating" required>
-                <option value="" disabled selected>Choose Rating</option>
-                {% for i in range(1, 6) %}
-                    <option value="{{ i }}">{{ i }}</option>
-                {% endfor %}
-            </select>
-            <label for="rating">Rating</label>
-        </div>
-        <div class="center-align">
-            <button type="submit" class="btn light-blue darken-1">Submit Review</button>
-        </div>
+    <!-- Genre filter -->
+    <form action="{{ url_for('reviews') }}" method="GET">
+        <select name="genre_id">
+            <option value="">-- Select Genre --</option>
+            {% for genre in genres %}
+                <option value="{{ genre.id }}">{{ genre.genre_name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Filter</button>
     </form>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const elems = document.querySelectorAll('select');
-        M.FormSelect.init(elems);
-    });
-</script>
+    <!-- Display reviews -->
+    <ul>
+        {% for review in reviews %}
+            <li>
+                <strong>{{ review.book.title }}:</strong> {{ review.rating }} stars<br>
+                {{ review.review_text }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Link to add a new review -->
+    <a href="{{ url_for('add_review', book_id=book.id) }}">Add Review</a>
 
 {% endblock %}

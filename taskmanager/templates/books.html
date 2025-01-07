@@ -2,6 +2,19 @@
 
 {% block content %}
   <h1>Books</h1>
+
+  <!-- Genre filter -->
+  <form action="{{ url_for('home') }}" method="GET">
+    <select name="genre_id">
+      <option value="">-- Select Genre --</option>
+      {% for genre in genres %}
+        <option value="{{ genre.id }}" {% if genre.id == selected_genre_id %}selected{% endif %}>{{ genre.genre_name }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Filter</button>
+  </form>
+
+  <!-- Display books -->
   <ul>
     {% for book in books %}
       <li>
@@ -12,3 +25,4 @@
     {% endfor %}
   </ul>
 {% endblock %}
+
