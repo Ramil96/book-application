@@ -83,3 +83,9 @@ def reviews():
     # Implement the logic to retrieve reviews
     reviews = Review.query.all()  # This can be customized as per your needs
     return render_template("reviews.html", reviews=reviews)
+
+
+@app.route("/book/<int:book_id>")
+def book_detail(book_id):
+    book = Book.query.get_or_404(book_id)
+    return render_template("book_detail.html", book=book)
