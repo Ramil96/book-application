@@ -1,8 +1,8 @@
 from flask import render_template, request, redirect, url_for, flash
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from taskmanager import app, db
 from taskmanager.models import Genre, Book, Review, User
-from flask_login import LoginManager, UserMixin
+from flask_login import LoginManager
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -22,7 +22,12 @@ def login():
         if user and user.check_password(password):
             login_user(user)
             flash("Logged in successfully!", "success")
-            return redirect(url_for("home"))
+            
+            # Redirect based on user role
+            if user.role == 'admin':
+                return redirect(url_for("admin_dashboard"))  # Change to your admin page route
+            else:
+                return redirect(url_for("home"))
         else:
             flash("Invalid email or password.", "error")
     
@@ -64,6 +69,7 @@ def register():
 
 # Home Page
 @app.route("/")
+@login_required
 def home():
     books = Book.query.order_by(Book.title).all()
     return render_template("books.html", books=books)
@@ -164,16 +170,17 @@ def delete_book(book_id):
 # Reviews
 @app.route("/reviews", methods=["GET", "POST"])
 def reviews():
-    
     genre_id = request.args.get("genre_id", None)
+    books = Book.query.all()  # Get all books to populate the dropdown
     if genre_id:
         reviews = Review.query.join(Book).filter(Book.genre_id == genre_id).all()
     else:
         reviews = Review.query.all()
     genres = Genre.query.order_by(Genre.genre_name).all()
-    return render_template("reviews.html", reviews=reviews, genres=genres)
+    return render_template("reviews.html", reviews=reviews, genres=genres, books=books)
 
 @app.route('/add_review', methods=['POST'])
+@login_required  # Only logged-in users can add reviews
 def add_review():
     book_id = request.form.get('book_id')  # Get book_id from the form
     rating = request.form.get('rating')
@@ -189,7 +196,7 @@ def add_review():
         flash("Book not found!", "error")
         return redirect(url_for('reviews'))
 
-    review = Review(book_id=book_id, rating=rating, review_text=review_text)
+    review = Review(book_id=book_id, rating=rating, review_text=review_text, user_id=current_user.id)
     db.session.add(review)
     db.session.commit()
     flash("Review added successfully!", "success")
@@ -203,8 +210,15 @@ def book_detail(book_id):
     return render_template("book_detail.html", book=book, reviews=reviews)
 
 @app.route("/edit_review/<int:review_id>", methods=["GET", "POST"])
+@login_required  # Ensure only logged-in users can access this route
 def edit_review(review_id):
     review = Review.query.get_or_404(review_id)
+
+    # Check if the user is the author of the review or an admin
+    if review.user_id != current_user.id and current_user.role != 'admin':
+        flash("You cannot edit someone else's review.", "error")
+        return redirect(url_for("book_detail", book_id=review.book_id))
+
     if request.method == "POST":
         review_text = request.form.get("review_text")
         rating = request.form.get("rating")
@@ -216,21 +230,25 @@ def edit_review(review_id):
             db.session.commit()
             flash("Review updated successfully!", "success")
             return redirect(url_for("book_detail", book_id=review.book_id))
+
     return render_template("edit_review.html", review=review)
 
 @app.route("/delete_review/<int:review_id>", methods=["POST"])
+@login_required  # Ensure only logged-in users can access this route
 def delete_review(review_id):
     review = Review.query.get_or_404(review_id)
-    book_id = review.book_id
+    # Check if the user is the author of the review or an admin
+    if review.user_id != current_user.id and current_user.role != 'admin':
+        flash("You cannot delete someone else's review.", "error")
+        return redirect(url_for("book_detail", book_id=review.book_id))
+
     db.session.delete(review)
     db.session.commit()
     flash("Review deleted successfully!", "success")
-    return redirect(url_for("book_detail", book_id=book_id))
-
+    return redirect(url_for("book_detail", book_id=review.book_id))
 
 @app.route("/genres/<int:genre_id>")
 def genre_books(genre_id):
     genre = Genre.query.get_or_404(genre_id)
     books = Book.query.filter_by(genre_id=genre_id).order_by(Book.title).all()
     return render_template("genre_books.html", genre=genre, books=books)
-
