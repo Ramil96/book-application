@@ -1,6 +1,8 @@
 from flask import render_template, request, redirect, url_for, flash
+from flask_login import login_user, logout_user, login_required
 from taskmanager import app, db
 from taskmanager.models import Genre, Book, Review, User
+from flask_login import LoginManager, UserMixin
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
