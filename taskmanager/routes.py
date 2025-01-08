@@ -104,9 +104,7 @@ def delete_book(book_id):
 # Reviews
 @app.route("/reviews", methods=["GET", "POST"])
 def reviews():
-    books = Book.query.all()  # Fetch all books from the database
-    reviews = Review.query.all()  # Fetch all reviews from the database
-    return render_template("reviews.html", books=books, reviews=reviews)
+    
     genre_id = request.args.get("genre_id", None)
     if genre_id:
         reviews = Review.query.join(Book).filter(Book.genre_id == genre_id).all()
@@ -175,3 +173,4 @@ def genre_books(genre_id):
     genre = Genre.query.get_or_404(genre_id)
     books = Book.query.filter_by(genre_id=genre_id).order_by(Book.title).all()
     return render_template("genre_books.html", genre=genre, books=books)
+
