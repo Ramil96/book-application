@@ -1,28 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Books</h1>
+  <div class="container">
+    <h1>Books</h1>
 
-  <!-- Genre filter -->
-  <form action="{{ url_for('home') }}" method="GET">
-    <select name="genre_id">
-      <option value="">-- Select Genre --</option>
-      {% for genre in genres %}
-        <option value="{{ genre.id }}" {% if genre.id == selected_genre_id %}selected{% endif %}>{{ genre.genre_name }}</option>
+    <!-- Filter Options -->
+    <form method="GET" action="{{ url_for('home') }}" class="filter-form">
+      <div class="form-group">
+        <label for="filter">Filter By:</label>
+        <select name="filter" id="filter" class="form-control" onchange="this.form.submit()">
+          <option value="">Select...</option>
+          <option value="alphabetical" {% if filter == 'alphabetical' %}selected{% endif %}>Alphabetical (A-Z)</option>
+          <option value="genre" {% if filter == 'genre' %}selected{% endif %}>Genre</option>
+          <option value="highest_rated" {% if filter == 'highest_rated' %}selected{% endif %}>Highest Rated</option>
+        </select>
+      </div>
+    </form>
+
+    <!-- Books Grid -->
+    <div class="books-grid">
+      {% for book in books %}
+        <div class="book-card">
+          <h3><a href="{{ url_for('book_detail', book_id=book.id) }}">{{ book.title }}</a></h3>
+          <p><strong>Author:</strong> {{ book.author }}</p>
+          <p><strong>Genre:</strong> {{ book.genre.genre_name }}</p>
+          <p><strong>Average Rating:</strong> {{ book.average_rating or 'N/A' }}</p>
+        </div>
       {% endfor %}
-    </select>
-    <button type="submit">Filter</button>
-  </form>
-
-  <!-- Display books -->
-  <ul>
-    {% for book in books %}
-      <li>
-        <a href="{{ url_for('book_detail', book_id=book.id) }}">
-          {{ book.title }} by {{ book.author }}
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
+    </div>
+  </div>
 {% endblock %}
-
