@@ -80,15 +80,17 @@ def delete_book(book_id):
 
 @app.route("/reviews", methods=["GET", "POST"])
 def reviews():
-    # Sorting by genre if a genre is selected
-    genre_id = request.args.get("genre_id", None)
-    if genre_id:
-        reviews = Review.query.filter_by(book_id=Book.query.filter_by(genre_id=genre_id).first().id).all()
-    else:
-        reviews = Review.query.all()
-
+    genre_id = request.args.get("genre_id")
     genres = Genre.query.order_by(Genre.genre_name).all()
-    return render_template("reviews.html", reviews=reviews, genres=genres)
+    books = Book.query.order_by(Book.title).all()
+
+    if genre_id:
+        reviews = Review.query.join(Book).filter(Book.genre_id == genre_id).all()
+    else:
+        reviews = Review.query.order_by(Review.id).all()
+
+    return render_template("reviews.html", reviews=reviews, genres=genres, books=books)
+
 
 
 @app.route("/book/<int:book_id>/add_review", methods=["GET", "POST"])
