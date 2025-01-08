@@ -30,21 +30,22 @@
   </ul>
 
   <!-- Add Review -->
-  <h2>Add a Review</h2>
-  <form method="POST" action="{{ url_for('add_review') }}">
-    <label for="book_id">Select Book:</label>
-    <select name="book_id" id="book_id" required>
-      {% for book in books %}
-        <option value="{{ book.id }}">{{ book.title }}</option>
-      {% endfor %}
-    </select>
-    
-    <label for="rating">Rating (1-5):</label>
-    <input type="number" name="rating" id="rating" min="1" max="5" required>
-    
-    <label for="review_text">Review:</label>
-    <textarea name="review_text" id="review_text" required></textarea>
-    
-    <button type="submit">Submit Review</button>
-  </form>
+<h2>Add a Review</h2>
+<form method="POST" action="{{ url_for('add_review') }}">
+  <label for="book_id">Select Book:</label>
+  <select name="book_id" id="book_id" required>
+    {% for book in books %}
+      <option value="{{ book.id }}">{{ book.title }}</option>
+    {% endfor %}
+  </select>
+  
+  <label for="rating">Rating (1-5):</label>
+  <input type="number" name="rating" id="rating" min="1" max="5" required>
+  
+  <label for="review_text">Review:</label>
+  <textarea name="review_text" id="review_text" required></textarea>
+  
+  <button type="submit">Submit Review</button>
+</form>
+
 {% endblock %}

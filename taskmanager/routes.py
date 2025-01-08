@@ -93,22 +93,25 @@ def reviews():
 
 
 
-@app.route("/book/<int:book_id>/add_review", methods=["GET", "POST"])
-def add_review(book_id):
-    book = Book.query.get_or_404(book_id)
-    
-    if request.method == "POST":
-        review_text = request.form.get("review_text")
-        rating = request.form.get("rating")
-        
-        # Create a new review
-        review = Review(review_text=review_text, rating=rating, book_id=book_id)
-        db.session.add(review)
-        db.session.commit()
-        
-        return redirect(url_for("book_detail", book_id=book_id))
-    
-    return render_template("add_review.html", book=book)
+@app.route("/add_review", methods=["POST"])
+def add_review():
+    book_id = request.form.get("book_id")
+    rating = request.form.get("rating")
+    review_text = request.form.get("review_text")
+
+    # Ensure all values are provided
+    if not book_id or not rating or not review_text:
+        flash("All fields are required to submit a review.")
+        return redirect(url_for("reviews"))
+
+    # Add the review to the database
+    new_review = Review(book_id=book_id, rating=rating, review_text=review_text)
+    db.session.add(new_review)
+    db.session.commit()
+
+    flash("Review added successfully!")
+    return redirect(url_for("reviews"))
+
 
 
 
