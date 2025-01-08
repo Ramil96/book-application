@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
 from taskmanager import app, db
 from taskmanager.models import Genre, Book, Review  # Import models from models.py
 
@@ -6,18 +6,28 @@ from taskmanager.models import Genre, Book, Review  # Import models from models.
 def home():
     sort = request.args.get('sort', '')
 
-    # Get all books
-    books = Book.query.options(db.joinedload(Book.genre), db.joinedload(Book.reviews))
+    # Get all books and their reviews
+    books_query = Book.query.options(db.joinedload(Book.genre), db.joinedload(Book.reviews))
 
     # Apply sorting
     if sort == 'most_rated':
-        books = books.outerjoin(Review).group_by(Book.id).order_by(db.func.count(Review.id).desc())
+        # Sort by number of reviews (most reviews)
+        books_query = books_query.outerjoin(Review).group_by(Book.id).order_by(db.func.count(Review.id).desc())
     elif sort == 'highest_rated':
-        books = books.order_by(Book.average_rating.desc())
+        # Sort by average rating
+        books_query = db.session.query(Book, db.func.avg(Review.rating).label('average_rating')) \
+            .join(Review, Book.id == Review.book_id) \
+            .group_by(Book.id) \
+            .order_by(db.func.avg(Review.rating).desc())
     elif sort == 'alphabetical':
-        books = books.order_by(Book.title.asc())
+        # Sort alphabetically
+        books_query = books_query.order_by(Book.title.asc())
 
-    books = books.all()
+    # Get the books after sorting
+    if sort == 'highest_rated':
+        books = books_query.all()  # This returns tuples (book, average_rating)
+    else:
+        books = books_query.all()
 
     return render_template('books.html', books=books, sort=sort)
 
@@ -106,8 +116,6 @@ def reviews():
 
     return render_template("reviews.html", reviews=reviews, genres=genres, books=books)
 
-
-
 @app.route("/add_review", methods=["POST"])
 def add_review():
     book_id = request.form.get("book_id")
@@ -127,19 +135,13 @@ def add_review():
     flash("Review added successfully!")
     return redirect(url_for("reviews"))
 
-
-
-
-
 @app.route("/book/<int:book_id>")
 def book_detail(book_id):
     book = Book.query.get_or_404(book_id)
     reviews = Review.query.filter_by(book_id=book_id).all()  # Fetch reviews for the specific book
     return render_template("book_detail.html", book=book, reviews=reviews)
 
-
 @app.route("/genre/<int:genre_id>")
 def genre_books(genre_id):
     genre = Genre.query.get_or_404(genre_id)
     return render_template("genre_books.html", genre=genre)
-

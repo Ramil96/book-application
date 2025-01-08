@@ -6,12 +6,11 @@
 
     <!-- Sort Options -->
     <form method="GET" action="{{ url_for('home') }}" class="sort-form">
-      <div class="form-group">
-        <label for="sort">Sort By:</label>
-        <select name="sort" id="sort" class="form-control">
+      <div class="form-group d-flex align-items-center mb-4">
+        <label for="sort" class="me-2"><strong>Sort By:</strong></label>
+        <select name="sort" id="sort" class="form-control me-2">
           <option value="">Select...</option>
           <option value="most_rated" {% if sort == 'most_rated' %}selected{% endif %}>Most Rated</option>
-          <option value="highest_rated" {% if sort == 'highest_rated' %}selected{% endif %}>Highest Rated</option>
           <option value="alphabetical" {% if sort == 'alphabetical' %}selected{% endif %}>Alphabetical (A-Z)</option>
         </select>
         <button type="submit" class="btn btn-primary">Apply Sort</button>
@@ -31,4 +30,12 @@
       {% endfor %}
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('select');
+      M.FormSelect.init(elems);
+    });
+  </script>
+  
 {% endblock %}
