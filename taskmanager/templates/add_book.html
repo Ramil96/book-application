@@ -47,11 +47,44 @@
             </div>
         </div>
 
-        <!-- Submit Button -->
+        <!-- Submit Button for Adding Book -->
         <div class="row">
             <div class="col s12 center-align">
                 <button type="submit" class="btn-large light-blue darken-1">
                     Add Book <i class="fas fa-plus-square right"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Review Form Section -->
+<div class="row card-panel grey lighten-5">
+    <h4 class="center-align">Leave a Review for the Book</h4>
+    <form method="POST" action="{{ url_for('add_book') }}" class="col s12">
+        <!-- Rating Field -->
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="fas fa-star prefix light-blue-text text-darken-4"></i>
+                <input id="rating" name="rating" type="number" min="1" max="5" class="validate" required>
+                <label for="rating">Rating (1-5 stars)</label>
+            </div>
+        </div>
+
+        <!-- Review Text Field -->
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="fas fa-pencil-alt prefix light-blue-text text-darken-4"></i>
+                <textarea id="review_text" name="review_text" class="materialize-textarea" required></textarea>
+                <label for="review_text">Write Your Review</label>
+            </div>
+        </div>
+
+        <!-- Submit Button for Review -->
+        <div class="row">
+            <div class="col s12 center-align">
+                <button type="submit" class="btn-large teal darken-1">
+                    Submit Review <i class="fas fa-pencil-alt right"></i>
                 </button>
             </div>
         </div>
@@ -67,4 +100,3 @@
 </script>
 
 {% endblock %}
-

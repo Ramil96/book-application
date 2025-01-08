@@ -16,7 +16,7 @@
               <!-- Genre Name Link -->
               <a href="{{ url_for('genre_books', genre_id=genre.id) }}" style="font-size: 1.8rem; font-weight: bold; color: #00796b; text-transform: capitalize; text-decoration: none;">
                 {{ genre.genre_name }}
-              </a>
+            </a>            
             </div>
             <div class="card-action" style="padding: 10px; background-color: #fafafa; border-top: 1px solid #e0e0e0; text-align: center;">
               <a href="{{ url_for('genre_books', genre_id=genre.id) }}" class="waves-effect waves-light btn teal lighten-2" style="width: 100%; border-radius: 5px;">View Books</a>

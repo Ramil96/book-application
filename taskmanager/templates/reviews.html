@@ -2,28 +2,29 @@
 
 {% block content %}
   <div class="container">
-    <!-- Leave a Review Form (Moved to the top) -->
+    <!-- Leave a Review Form -->
     <h2>Add a Review</h2>
     <form method="POST" action="{{ url_for('add_review') }}" class="card-panel">
       <div class="input-field">
-        <label for="book_id">:</label>
+        <label for="book_id">Select a Book</label>
         <select name="book_id" id="book_id" required>
+          <option value="" disabled selected>Select a Book</option>
           {% for book in books %}
             <option value="{{ book.id }}">{{ book.title }}</option>
           {% endfor %}
         </select>
       </div>
-      
+
       <div class="input-field">
         <label for="rating">Rating (1-5):</label>
         <input type="number" name="rating" id="rating" min="1" max="5" required>
       </div>
-      
+
       <div class="input-field">
         <label for="review_text">Review:</label>
         <textarea name="review_text" id="review_text" class="materialize-textarea" rows="4" required></textarea>
       </div>
-      
+
       <button type="submit" class="btn waves-effect waves-light teal lighten-2">Submit Review</button>
     </form>
 
@@ -39,9 +40,15 @@
               <div class="card-content">
                 <h3 style="font-size: 1.5rem; color: #00796b; font-weight: bold;">{{ review.book.title }}</h3>
                 <p><strong style="font-size: 1.1rem;">Rating:</strong> <span style="font-size: 1.2rem; color: #00796b;">{{ review.rating }}/5</span></p>
-                <p style="font-style: italic; color: #616161;">{{ review.review_text[:150] }}{% if review.review_text|length > 150 %}...{% endif %}</p> <!-- Preview of the review -->
+                <p style="font-style: italic; color: #616161;">{{ review.review_text[:150] }}{% if review.review_text|length > 150 %}...{% endif %}</p>
                 <a href="#modal{{ review.id }}" class="modal-trigger" style="color: #00796b; text-decoration: underline;">Read full review</a>
                 <p><em>Genre: {{ review.book.genre.genre_name }}</em></p>
+                <div class="card-action">
+                  <a href="{{ url_for('edit_review', review_id=review.id) }}" class="btn-small waves-effect waves-light orange">Edit</a>
+                  <form action="{{ url_for('delete_review', review_id=review.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn-small waves-effect waves-light red">Delete</button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -67,7 +74,13 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      M.AutoInit();  // Initializes Materialize elements like selects, modals, and textareas
+      // Initialize Materialize Select Dropdown
+      var elems = document.querySelectorAll('select');
+      M.FormSelect.init(elems);
+
+      // Initialize Materialize Modal
+      var modalElems = document.querySelectorAll('.modal');
+      M.Modal.init(modalElems);
     });
   </script>
 {% endblock %}

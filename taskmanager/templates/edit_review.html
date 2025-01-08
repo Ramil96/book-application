@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h3>Edit Review for {{ review.book.title }}</h3>
+  <form method="POST" action="{{ url_for('edit_review', review_id=review.id) }}">
+    <div class="input-field">
+      <label for="rating">Rating (1-5):</label>
+      <input type="number" name="rating" id="rating" value="{{ review.rating }}" min="1" max="5" required>
+    </div>
+    
+    <div class="input-field">
+      <label for="review_text">Review:</label>
+      <textarea name="review_text" id="review_text" class="materialize-textarea" rows="4" required>{{ review.review_text }}</textarea>
+    </div>
+    
+    <button type="submit" class="btn waves-effect waves-light teal lighten-2">Update Review</button>
+  </form>
+{% endblock %}
