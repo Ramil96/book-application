@@ -4,6 +4,36 @@ from taskmanager import app, db
 from taskmanager.models import Genre, Book, Review, User
 from flask_login import LoginManager, UserMixin
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+# Load user for flask-login
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        
+        user = User.query.filter_by(email=email).first()
+        if user and user.check_password(password):
+            login_user(user)
+            flash("Logged in successfully!", "success")
+            return redirect(url_for("home"))
+        else:
+            flash("Invalid email or password.", "error")
+    
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    flash("Logged out successfully!", "success")
+    return redirect(url_for("home"))
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
