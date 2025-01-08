@@ -1,15 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Books in {{ genre.genre_name }} Genre</h1>
-  <ul>
-    {% for book in genre.books %}
-      <li>
-        <a href="{{ url_for('book_detail', book_id=book.id) }}">
-          {{ book.title }} by {{ book.author }}
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
-  <a href="{{ url_for('genres') }}">Back to Genres</a>
+<!-- Container for the content -->
+<div class="container">
+    <!-- Genre Heading -->
+    <h3 class="light-green-text text-darken-4 center-align">Books in {{ genre.genre_name }} Genre</h3>
+
+    <!-- Books List -->
+    <div class="row">
+        {% for book in genre.books %}
+            <div class="col s12 m6 l4">
+                <!-- Card for each book -->
+                <div class="card hoverable">
+                    <div class="card-content">
+                        <span class="card-title">{{ book.title }}</span>
+                        <p><em>by {{ book.author }}</em></p>
+                    </div>
+                    <div class="card-action">
+                        <a href="{{ url_for('book_detail', book_id=book.id) }}" class="btn light-green darken-4 waves-effect waves-light">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Back Button -->
+    <div class="row center">
+        <a href="{{ url_for('genres') }}" class="btn light-green darken-4 waves-effect waves-light">Back to Genres</a>
+    </div>
+</div>
+
 {% endblock %}

@@ -6,7 +6,7 @@
     <h2>Add a Review</h2>
     <form method="POST" action="{{ url_for('add_review') }}" class="card-panel">
       <div class="input-field">
-        <label for="book_id">Select a Book</label>
+        <label for="book_id"></label>
         <select name="book_id" id="book_id" required>
           <option value="" disabled selected>Select a Book</option>
           {% for book in books %}
