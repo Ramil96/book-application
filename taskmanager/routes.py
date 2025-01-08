@@ -118,4 +118,8 @@ def book_detail(book_id):
     return render_template("book_detail.html", book=book, reviews=reviews)
 
 
+@app.route("/genre/<int:genre_id>")
+def genre_books(genre_id):
+    genre = Genre.query.get_or_404(genre_id)
+    return render_template("genre_books.html", genre=genre)
 
