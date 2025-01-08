@@ -1,31 +1,50 @@
-<!-- reviews.html -->
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Reviews</h1>
+  <h1>Reviews</h1>
+  
+  <!-- Filter by Genre -->
+  <form method="GET" action="{{ url_for('reviews') }}">
+    <label for="genre_filter">Filter by Genre:</label>
+    <select name="genre_id" id="genre_filter">
+      <option value="">All Genres</option>
+      {% for genre in genres %}
+        <option value="{{ genre.id }}" 
+          {% if request.args.get('genre_id') == genre.id|string %}selected{% endif %}>
+          {{ genre.genre_name }}
+        </option>
+      {% endfor %}
+    </select>
+    <button type="submit">Filter</button>
+  </form>
 
-    <!-- Genre filter -->
-    <form action="{{ url_for('reviews') }}" method="GET">
-        <select name="genre_id">
-            <option value="">-- Select Genre --</option>
-            {% for genre in genres %}
-                <option value="{{ genre.id }}">{{ genre.genre_name }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Filter</button>
-    </form>
+  <!-- Display Reviews -->
+  <ul>
+    {% for review in reviews %}
+      <li>
+        <strong>{{ review.book.title }}</strong> by {{ review.book.author }}<br>
+        <em>Rating:</em> {{ review.rating }} / 5<br>
+        <em>Review:</em> {{ review.review_text }}<br>
+      </li>
+    {% endfor %}
+  </ul>
 
-    <!-- Display reviews -->
-    <ul>
-        {% for review in reviews %}
-            <li>
-                <strong>{{ review.book.title }}:</strong> {{ review.rating }} stars<br>
-                {{ review.review_text }}
-            </li>
-        {% endfor %}
-    </ul>
-
-    <!-- Link to add a new review -->
-    <a href="{{ url_for('add_review', book_id=book.id) }}">Add Review</a>
-
+  <!-- Add Review -->
+  <h2>Add a Review</h2>
+  <form method="POST" action="{{ url_for('add_review') }}">
+    <label for="book_id">Select Book:</label>
+    <select name="book_id" id="book_id" required>
+      {% for book in books %}
+        <option value="{{ book.id }}">{{ book.title }}</option>
+      {% endfor %}
+    </select>
+    
+    <label for="rating">Rating (1-5):</label>
+    <input type="number" name="rating" id="rating" min="1" max="5" required>
+    
+    <label for="review_text">Review:</label>
+    <textarea name="review_text" id="review_text" required></textarea>
+    
+    <button type="submit">Submit Review</button>
+  </form>
 {% endblock %}
