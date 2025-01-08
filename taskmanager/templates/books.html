@@ -4,16 +4,17 @@
   <div class="container">
     <h1>Books</h1>
 
-    <!-- Filter Options -->
-    <form method="GET" action="{{ url_for('home') }}" class="filter-form">
+    <!-- Sort Options -->
+    <form method="GET" action="{{ url_for('home') }}" class="sort-form">
       <div class="form-group">
-        <label for="filter">Filter By:</label>
-        <select name="filter" id="filter" class="form-control" onchange="this.form.submit()">
+        <label for="sort">Sort By:</label>
+        <select name="sort" id="sort" class="form-control">
           <option value="">Select...</option>
-          <option value="alphabetical" {% if filter == 'alphabetical' %}selected{% endif %}>Alphabetical (A-Z)</option>
-          <option value="genre" {% if filter == 'genre' %}selected{% endif %}>Genre</option>
-          <option value="highest_rated" {% if filter == 'highest_rated' %}selected{% endif %}>Highest Rated</option>
+          <option value="most_rated" {% if sort == 'most_rated' %}selected{% endif %}>Most Rated</option>
+          <option value="highest_rated" {% if sort == 'highest_rated' %}selected{% endif %}>Highest Rated</option>
+          <option value="alphabetical" {% if sort == 'alphabetical' %}selected{% endif %}>Alphabetical (A-Z)</option>
         </select>
+        <button type="submit" class="btn btn-primary">Apply Sort</button>
       </div>
     </form>
 
@@ -25,6 +26,7 @@
           <p><strong>Author:</strong> {{ book.author }}</p>
           <p><strong>Genre:</strong> {{ book.genre.genre_name }}</p>
           <p><strong>Average Rating:</strong> {{ book.average_rating or 'N/A' }}</p>
+          <p><strong>Number of Reviews:</strong> {{ book.reviews | length }}</p>
         </div>
       {% endfor %}
     </div>

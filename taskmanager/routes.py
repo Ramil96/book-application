@@ -4,8 +4,23 @@ from taskmanager.models import Genre, Book, Review  # Import models from models.
 
 @app.route("/")
 def home():
-    books = Book.query.order_by(Book.title).all()
-    return render_template("books.html", books=books)
+    filter = request.args.get('filter')
+    books_query = Book.query
+
+    if filter == 'alphabetical':
+        books_query = books_query.order_by(Book.title.asc())
+    elif filter == 'genre':
+        books_query = books_query.join(Genre).order_by(Genre.genre_name.asc())
+    elif filter == 'highest_rated':
+        books_query = books_query.outerjoin(Review).group_by(Book.id).order_by(
+            db.func.avg(Review.rating).desc()
+        )
+    
+    books = books_query.all()
+    genres = Genre.query.all()
+    
+    return render_template("books.html", books=books, genres=genres, filter=filter)
+
 
 @app.route("/genres")
 def genres():
