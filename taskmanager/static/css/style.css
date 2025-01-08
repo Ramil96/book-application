@@ -123,4 +123,48 @@ main {
   .book-card a:hover {
     text-decoration: underline;
   }
+
+  /* Sort */
+/* General form alignment */
+.sort-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .sort-form .form-control {
+    width: auto;
+    flex-grow: 1;
+    max-width: 300px;
+  }
+  
+  .sort-form .btn {
+    white-space: nowrap;
+  }
+  
+  /* Books grid layout */
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .book-card {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: #fff;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .book-card h3 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .book-card p {
+    margin: 0.5rem 0;
+  }
   

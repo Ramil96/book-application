@@ -2,24 +2,24 @@ from flask import render_template, request, redirect, url_for
 from taskmanager import app, db
 from taskmanager.models import Genre, Book, Review  # Import models from models.py
 
-@app.route("/")
+@app.route('/')
 def home():
-    filter = request.args.get('filter')
-    books_query = Book.query
+    sort = request.args.get('sort', '')
 
-    if filter == 'alphabetical':
-        books_query = books_query.order_by(Book.title.asc())
-    elif filter == 'genre':
-        books_query = books_query.join(Genre).order_by(Genre.genre_name.asc())
-    elif filter == 'highest_rated':
-        books_query = books_query.outerjoin(Review).group_by(Book.id).order_by(
-            db.func.avg(Review.rating).desc()
-        )
-    
-    books = books_query.all()
-    genres = Genre.query.all()
-    
-    return render_template("books.html", books=books, genres=genres, filter=filter)
+    # Get all books
+    books = Book.query.options(db.joinedload(Book.genre), db.joinedload(Book.reviews))
+
+    # Apply sorting
+    if sort == 'most_rated':
+        books = books.outerjoin(Review).group_by(Book.id).order_by(db.func.count(Review.id).desc())
+    elif sort == 'highest_rated':
+        books = books.order_by(Book.average_rating.desc())
+    elif sort == 'alphabetical':
+        books = books.order_by(Book.title.asc())
+
+    books = books.all()
+
+    return render_template('books.html', books=books, sort=sort)
 
 
 @app.route("/genres")
