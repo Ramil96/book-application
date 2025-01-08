@@ -4,9 +4,9 @@
   <div class="container">
     <h1>Reviews</h1>
 
-    <!-- Display Reviews -->
+    <!-- Display Reviews in a Grid -->
     {% if reviews %}
-      <div class="reviews-list">
+      <div class="reviews-grid">
         {% for review in reviews %}
           <div class="review-card">
             <h3>{{ review.book.title }}</h3>
