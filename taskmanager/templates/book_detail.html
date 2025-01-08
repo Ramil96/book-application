@@ -1,28 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>{{ book.title }}</h1>
-  <h3>By {{ book.author }}</h3>
-  <p><strong>Genre:</strong> {{ book.genre.genre_name }}</p>
-  <p><strong>Description:</strong> {{ book.description or 'No description available.' }}</p>
-  <a href="{{ url_for('home') }}">Back to Books List</a>
+  <div class="container">
+    <!-- Book Title and Author -->
+    <h1 class="center-align">{{ book.title }}</h1>
+    <h3 class="center-align" style="color: #00796b;">By {{ book.author }}</h3>
+    <p><strong>Genre:</strong> {{ book.genre.genre_name }}</p>
+    <p><strong>Description:</strong> {{ book.description or 'No description available.' }}</p>
+    
+    <!-- Back Button -->
+    <div class="center-align">
+      <a href="{{ url_for('home') }}" class="btn waves-effect waves-light teal lighten-1">Back to Books List</a>
+    </div>
 
-  <hr>
+    <hr style="border: 1px solid #e0e0e0;">
 
-  <!-- Reviews Section -->
-  <h2>Reviews</h2>
-  {% if reviews %}
-    <ul>
-      {% for review in reviews %}
-        <li>
-          <strong>{{ review.rating }} stars</strong>: {{ review.review_text }}
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No reviews yet. Be the first to add one!</p>
-  {% endif %}
+    <!-- Reviews Section -->
+    <h2>Reviews</h2>
 
-  <!-- Add a Review Link -->
-  <a href="{{ url_for('add_review', book_id=book.id) }}">Add a Review</a>
+    {% if reviews %}
+      <ul class="collection">
+        {% for review in reviews %}
+          <li class="collection-item">
+            <strong>{{ review.rating }} stars</strong>: {{ review.review_text }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No reviews yet. Be the first to add one!</p>
+    {% endif %}
+
+    <!-- Add a Review Link -->
+    <div class="center-align">
+      <a href="{{ url_for('add_review', book_id=book.id) }}" class="btn waves-effect waves-light teal lighten-2">Add a Review</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      M.AutoInit();  // Initializes Materialize elements
+    });
+  </script>
 {% endblock %}
