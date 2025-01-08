@@ -1,6 +1,34 @@
 from flask import render_template, request, redirect, url_for, flash
 from taskmanager import app, db
-from taskmanager.models import Genre, Book, Review
+from taskmanager.models import Genre, Book, Review, User
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        username = request.form.get("username")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        password_confirm = request.form.get("password_confirm")
+
+        # Basic validation
+        if not username or not email or not password:
+            flash("Please fill in all fields.", "error")
+        elif password != password_confirm:
+            flash("Passwords do not match.", "error")
+        else:
+            # Check if the user already exists
+            existing_user = User.query.filter_by(email=email).first()
+            if existing_user:
+                flash("Email already exists. Please login.", "error")
+            else:
+                user = User(username=username, email=email, role='user')
+                user.set_password(password)
+                db.session.add(user)
+                db.session.commit()
+                flash("Account created successfully!", "success")
+                return redirect(url_for("login"))
+    
+    return render_template("register.html")
 
 # Home Page
 @app.route("/")
