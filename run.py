@@ -1,5 +1,8 @@
 import os
 from taskmanager import app
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 if __name__ == "__main__":
     # Default to IP and PORT environment variables if available, otherwise use localhost and a free port.
