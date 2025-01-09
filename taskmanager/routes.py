@@ -176,7 +176,10 @@ def reviews():
     else:
         reviews = Review.query.all()
     genres = Genre.query.order_by(Genre.genre_name).all()
+
+    # Pass books to the template to show them in the dropdown
     return render_template("reviews.html", reviews=reviews, genres=genres, books=books)
+
 
 @app.route('/add_review', methods=['POST'])
 def add_review():
