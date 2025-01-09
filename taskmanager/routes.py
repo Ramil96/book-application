@@ -177,7 +177,7 @@ def reviews():
     else:
         reviews = Review.query.all()
     genres = Genre.query.order_by(Genre.genre_name).all()
-    return render_template("reviews.html", reviews=reviews, genres=genres, books=books)
+    return render_template("reviews.html", reviews=reviews, genres=genres)
 
 @app.route('/add_review', methods=['POST'])
 @login_required  # Only logged-in users can add reviews
