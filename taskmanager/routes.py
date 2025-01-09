@@ -197,11 +197,13 @@ def add_review():
         flash("Book not found!", "error")
         return redirect(url_for('reviews'))
 
-    review = Review(book_id=book_id, rating=rating, review_text=review_text, user_id=current_user.id)
+    # Set user_id to None or a default value
+    review = Review(book_id=book_id, rating=rating, review_text=review_text)
     db.session.add(review)
     db.session.commit()
     flash("Review added successfully!", "success")
     return redirect(url_for('reviews'))
+
 
 
 @app.route("/book/<int:book_id>")
@@ -213,11 +215,6 @@ def book_detail(book_id):
 @app.route("/edit_review/<int:review_id>", methods=["GET", "POST"])
 def edit_review(review_id):
     review = Review.query.get_or_404(review_id)
-
-    # Check if the user is the author of the review or an admin
-    if review.user_id != current_user.id and current_user.role != 'admin':
-        flash("You cannot edit someone else's review.", "error")
-        return redirect(url_for("book_detail", book_id=review.book_id))
 
     if request.method == "POST":
         review_text = request.form.get("review_text")
@@ -236,10 +233,6 @@ def edit_review(review_id):
 @app.route("/delete_review/<int:review_id>", methods=["POST"])
 def delete_review(review_id):
     review = Review.query.get_or_404(review_id)
-    # Check if the user is the author of the review or an admin
-    if review.user_id != current_user.id and current_user.role != 'admin':
-        flash("You cannot delete someone else's review.", "error")
-        return redirect(url_for("book_detail", book_id=review.book_id))
 
     db.session.delete(review)
     db.session.commit()
