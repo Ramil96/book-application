@@ -69,7 +69,6 @@ def register():
 
 # Home Page
 @app.route("/")
-@login_required
 def home():
     books = Book.query.order_by(Book.title).all()
     return render_template("books.html", books=books)
@@ -177,10 +176,9 @@ def reviews():
     else:
         reviews = Review.query.all()
     genres = Genre.query.order_by(Genre.genre_name).all()
-    return render_template("reviews.html", reviews=reviews, genres=genres)
+    return render_template("reviews.html", reviews=reviews, genres=genres, books=books)
 
 @app.route('/add_review', methods=['POST'])
-@login_required  # Only logged-in users can add reviews
 def add_review():
     book_id = request.form.get('book_id')  # Get book_id from the form
     rating = request.form.get('rating')
@@ -210,7 +208,6 @@ def book_detail(book_id):
     return render_template("book_detail.html", book=book, reviews=reviews)
 
 @app.route("/edit_review/<int:review_id>", methods=["GET", "POST"])
-@login_required  # Ensure only logged-in users can access this route
 def edit_review(review_id):
     review = Review.query.get_or_404(review_id)
 
@@ -234,7 +231,6 @@ def edit_review(review_id):
     return render_template("edit_review.html", review=review)
 
 @app.route("/delete_review/<int:review_id>", methods=["POST"])
-@login_required  # Ensure only logged-in users can access this route
 def delete_review(review_id):
     review = Review.query.get_or_404(review_id)
     # Check if the user is the author of the review or an admin
