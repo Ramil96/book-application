@@ -2,9 +2,9 @@
 ## A website built to review your favourite books.
 ## - Ramil Jose Tyrone Tuazon
 
-![My amiresponsive picture]()
+![My amiresponsive picture](taskmanager/static/images/responsive/amiresponsive.png)
 
-## [Live site](https://ramil96.github.io/raptors-muay-thai/)
+## [Live site](https://book-review-app-1f914f440823.herokuapp.com)
 
 ## [Repository](https://github.com/Ramil96/book-application)
 
