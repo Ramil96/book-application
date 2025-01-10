@@ -214,65 +214,34 @@ To determine the best approach to this project, I began by identifying and under
 
 ## Bugs
 
-> Hero image text not responsive. Fixed - Added bootstrap sm -lg to resize ratio when scaled down in size using indentation to fix the element in desired place.
+> Site non functional. Fixed - Undefined error book is undefined. Defined string to books.html.
+![Fix](taskmanager/static/images/fixes/undefinederror.png)
 
-> Issues with navigation links on about us page. Fixed - Reconnected the href as when copying over the style from index to other pages the href and link was missing.
+> Site non functional. Fixed - routes for add_review fix.
+![Fix](taskmanager/static/images/fixes/add_review.png)
 
-> Issues with contact us button only going to contact page and not selected div. Fixed - Re linked the href due to switching styles and information being deleted due to manual error.
-
-> Navbar displaying white space on both sides and not filling the whole width of element. Fixed - Scaled full width of the color by using CSS 100% width to fill the whole navbar.
-
-> Footer image showing on top of screen. Fixed - Adjusted the image using bootstrap comman image fluid and not fixed as fixed was pushing the footer image to the top of the page.
-
-> About page location and prices header brings user to "no webpage found" error when clicking the location in header. Fixed
+> Site non functional. Fixed - modify review routes. 
+![Fix](taskmanager/static/images/fixes/modifyreview.png)
 
 ## Deployment
-> To deploy the project I followed these steps from the main project repository [here](https://github.com/Ramil96/raptors-muay-thai)
-
-1. Clicked on Settings on the navigation menu in the repository
-2. I then selected the Pages menu on the side bar.
-3. In the first dropdown menu labeled Source I selected the branch of the name main from the dropdown.
-4. In the next dropdown labeled /root I left as the default option.
-5. Selected Save
+> To deploy the project I followed the steps on the heroku part of the project material. [here](https://github.com/Ramil96/book-application)
 
 ## Credits
 
-### All images sourced are from pexels.com Links for images included  below
-
-> hero image https://www.pexels.com/photo/man-and-woman-during-a-kickboxing-workout-8611942/
-
-> about image https://www.pexels.com/photo/men-training-in-a-gym-5750838/
-
-> about us image https://www.pexels.com/photo/two-contestant-doing-kick-boxing-match-598686/
-
-> prices image https://www.pexels.com/photo/woman-in-black-dress-walking-down-the-stairs-4754138/
-
-> contact us main image https://www.pexels.com/photo/strong-male-personal-trainer-showing-kickboxing-technique-to-young-woman-7991668/
-
-> contact us secondary image https://www.pexels.com/photo/man-in-black-tank-top-and-brown-pants-doing-exercise-4761788/
-
-> footer image https://www.pexels.com/photo/a-man-doing-kickboxing-4804068/
-
 ## Content and Resources 
-
-### Maps
-> Used to embed googlemaps iframe https://www.google.co.uk/maps
-
-### Pexels.com
-> Images used in this project.
 
 ### w3 schools
 > Used for general help for HTML AND CSS syntax.
 
-### bootstrap
+### materialize
 > Used for help regarding the responsive side of development.
 
 ### stack overflow 
-> For help with general quiries in regards to CSS and HTML
+> For help with general quiries in regards to CSS, HTML and python.
 
 ### Code Institute 
-> Project created in line with course content and within project 1 scope.
+> Project created in line with course content and within project 3 scope.
 
 ## Acknowledgements 
-### Alan Bushell
+### Rory Patrick
 > My mentor who provided me with constructive feedback and positive reinforcement where applicable.
