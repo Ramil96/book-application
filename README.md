@@ -178,39 +178,39 @@ To determine the best approach to this project, I began by identifying and under
 | Issues Reported         | None    |
 
 ## Google Lighthouse Testing 
-### index.html
-![index.html lighthouse test](assets/images/testing/lh%20index.PNG)
+### books
+![books.html lighthouse test](taskmanager/static/images/testing/bookslh.png)
 
-### about.html
-![about.html lighthouse test](assets/images/testing/lh%20about.PNG)
+### add book
+![add_book.html lighthouse test](taskmanager/static/images/testing/addbooklh.png)
 
-### prices.html
-![prices.html lighthouse test](assets/images/testing/lh%20prices.PNG)
+### genres
+![genres.html lighthouse test](taskmanager/static/images/testing/genreslh.png)
 
-### contact-us.html
-![contact-us.html lighthouse test](assets/images/testing/lh%20contact.PNG)
+### add review
+![reviews.html lighthouse test](taskmanager/static/images/testing/reviewslh.png)
 
 ## HTML Validation
 
 ### index.html
-![HTML Validation with W3C testing](assets/images/testing/w3%20test.PNG)
+![HTML Validation with W3C testing](taskmanager/static/images/testing/w3chome.png)
 #### Result: No Errors
 
-### about.html
-![about.html validation with W3C testing](assets/images/testing/about%20w3c.PNG)
+### add_book.html
+![add_book.html validation with W3C testing](taskmanager/static/images/testing/w3cab.png)
 #### Result: No Errors
 
-### prices.html
-![prices.html validation with W3C testing](assets/images/testing/prices%20w3c%20test.PNG)
+### genres.html
+![genres.html validation with W3C testing](taskmanager/static/images/testing/w3cgenre.png)
 #### Result: No Errors
 
-### contact-us.html
-![contact-us.html validation with W3C testing](assets/images/testing/contact%20w3c%20testing.PNG)
+### reviews.html
+![reviews.html validation with W3C testing](taskmanager/static/images/testing/w3creviews.png)
 #### Result: No Errors
 
 ## CSS Validation 
-![CSS W3C Validator](assets/images/testing/jigsaw%20css%20validator.PNG)
-#### Result: No Errors
+![CSS W3C Validator](taskmanager/static/images/testing/w3ccss.png)
+#### Result: No Errors for actual css although the error comes form materialize library and not my code.
 
 ## Bugs
 
