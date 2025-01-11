@@ -25,7 +25,7 @@ def login():
             
             # Redirect based on user role
             if user.role == 'admin':
-                return redirect(url_for("admin_dashboard"))  # Change to your admin page route
+                return redirect(url_for("admin_dashboard"))  # Change to admin page route
             else:
                 return redirect(url_for("home"))
         else:
@@ -197,7 +197,6 @@ def add_review():
         flash("Book not found!", "error")
         return redirect(url_for('reviews'))
 
-    # Set user_id to None or a default value
     review = Review(book_id=book_id, rating=rating, review_text=review_text)
     db.session.add(review)
     db.session.commit()
