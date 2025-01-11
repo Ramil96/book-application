@@ -202,8 +202,7 @@ def add_review():
     flash("Review added successfully!", "success")
     return redirect(url_for('reviews'))
 
-
-
+# book details
 @app.route("/book/<int:book_id>")
 def book_detail(book_id):
     book = Book.query.get_or_404(book_id)
