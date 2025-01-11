@@ -27,6 +27,13 @@
 > When embarking on this project, I wanted to create a website that helps the user add books and reviews to a website. I wanted to create a simple place for a user to be able to write what they want about a book, select its genre and add a rating as well as write, edit, read and delete reviews and books if desired. I wanted this project to have a simplistic feel so easy navigation was necessary and the use of simple warm colours like green and white.
 
 ## UX Design
+> The objective of my UX design strategy is to create a visually appealing, user-friendly interface for the book application, prioritizing ease of navigation and accessibility. The design aligns with the green color theme and the grid-based layout, ensuring simplicity and functionality.
+
+The primary color for the application is green, which conveys calmness. Green is used for key elements such as buttons and active links. To complement this, white is used as secondary colors for backgrounds to enhance readability and create contrast.
+
+Navigation is designed to be intuitive. A sticky top navigation bar is accessible from any part of the site and includes tabs for Home, Books, Genres, Add Book and Review.
+
+The design emphasizes simplicity and minimalism. Overcrowding is avoided by using whitespace effectively to separate content and guide the user's focus. Calls to action, such as "Add a review" and "Add book" are kept prominent and minimal for a streamlined experience.
 
 ### Strategy Plane
 ---
