@@ -79,7 +79,7 @@ To determine the best approach to this project, I began by identifying and under
 
 ### Home Page desktop Wireframe
 
-![Home page wireframe](taskmanager/static/images/responsive/amiresponsive.png)
+![Home page wireframe](taskmanager/static/images/wireframe/wireframe.png)
 > The design flow of this website is meant to showcase a minimal design.
 
 ## Surface Plane
