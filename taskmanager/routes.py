@@ -181,7 +181,7 @@ def reviews():
     return render_template("reviews.html", reviews=reviews, genres=genres, books=books)
 
 
-@app.route('/add_review', methods=['POST'])
+@app.route('/add_review', methods=['GET', 'POST'])
 def add_review():
     book_id = request.form.get('book_id')  # Get book_id from the form
     rating = request.form.get('rating')
